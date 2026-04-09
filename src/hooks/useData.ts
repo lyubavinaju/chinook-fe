@@ -5,7 +5,7 @@ export default function useData<T>(queryKey: string[], queryFn: any): {data: T |
     const result = useQuery<T, AxiosError>({
         queryKey,
         queryFn,
-        staleTime: 3600
+        staleTime: 1000 * 60 * 60
     });
     if (result.error) {
         throw result.error;

@@ -1,4 +1,4 @@
-import { Grid, Text } from '@chakra-ui/react'
+import { Grid, Spinner, Text } from '@chakra-ui/react'
 import type { FC } from 'react'
 import useData from '../hooks/useData'
 import apiClient from '../services/ApiClientImpl'
@@ -16,7 +16,7 @@ const SaleAgent: FC<Props> = ({ employeeId }) => {
   const formatDate = (value: string | null) => (value ? new Date(value).toLocaleDateString('en-GB') : '')
  
   return (
-    !isLoading && (
+    isLoading ? <Spinner /> :
       <Grid templateColumns="repeat(2, minmax(0, 1fr))" gap={3}>
         <Text>First Name</Text>
         <Text>{employee!.first_name}</Text>
@@ -33,7 +33,6 @@ const SaleAgent: FC<Props> = ({ employeeId }) => {
         <Text>Email</Text>
         <Text>{employee!.email}</Text>
       </Grid>
-    )
   ) 
 }
 

@@ -1,6 +1,7 @@
 import { Box, HStack } from '@chakra-ui/react'
 import AppBar from '../AppBar'
 import { Outlet } from 'react-router-dom'
+import { useUserData } from '../../state-management/auth-store'
 
 const LayoutPage = () => {
   return (

@@ -5,12 +5,27 @@ import { type Album } from "../model/Album";
 import type { Playlist } from "../model/Playlist";
 import type { Invoice } from "../model/Invoice";
 import type { Employee } from "../model/SalesAgent";
+import type { Track } from "../model/Track";
+import { API_BASE_URL } from "../config/api-config";
 
 class ApiClientImpl implements ApiClient {
     _axiosInstace;
     constructor() {
         this._axiosInstace = axios.create({
-            baseURL: "http://localhost:3000/"
+            baseURL: API_BASE_URL
+        });
+    }
+    setAuth(token: string): void {
+       this._axiosInstace = axios.create({
+        baseURL: API_BASE_URL,
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+       })
+    }
+    resetAuth(): void {
+        this._axiosInstace = axios.create({
+            baseURL: API_BASE_URL
         });
     }
 
@@ -36,6 +51,24 @@ class ApiClientImpl implements ApiClient {
         const response = await this._axiosInstace.get<Invoice[]>(`customers/${customerId}/invoices`);
         let invoices = response.data;
         return invoices;
+    }
+
+    async getTracksByInvoice(invoiceId: number): Promise<Track[]> {
+        const response = await this._axiosInstace.get<Track[]>(`customers/invoices/${invoiceId}/tracks`);
+        let tracks = response.data;
+        return tracks;
+    }
+
+    async getTracksByAlbum(albumId: number): Promise<Track[]> {
+        const response = await this._axiosInstace.get<Track[]>(`albums/${albumId}/tracks`);
+        let tracks = response.data;
+        return tracks;
+    }
+
+    async getTracksByPlaylist(playlistId: number): Promise<Track[]> {
+        const response = await this._axiosInstace.get<Track[]>(`playlists/${playlistId}/tracks`);
+        let tracks = response.data;
+        return tracks;
     }
 
     async getEmployee(id: number): Promise<Employee> {
